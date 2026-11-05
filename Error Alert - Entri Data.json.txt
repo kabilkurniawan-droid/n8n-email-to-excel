@@ -1,0 +1,68 @@
+{
+  "name": "Error Alert - Entri Data",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "87daf49d-fa82-4da6-9559-d5a40a1e2923",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "fromEmail": "kabil.kurniawan@gmail.com",
+        "toEmail": "kabil.kurniawan@gmail.com",
+        "subject": "=n8n error: {{ $json.workflow.name }}",
+        "emailFormat": "=text",
+        "text": "=     Workflow: {{ $json.workflow.name }}\n     Failed node: {{ $json.execution.lastNodeExecuted }}\n     Error: {{ $json.execution.error.message }}\n     Details: {{ $json.execution.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "89247b16-04ff-4e7f-b02a-5449002e2b83",
+      "name": "Send an Email",
+      "webhookId": "7bcae6b6-a5ea-41e3-b009-6d2492ce0286",
+      "credentials": {
+        "smtp": {
+          "id": "WCJ5QOEU9XPkfzTt",
+          "name": "SMTP account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c2fd4b1e-0d28-4b36-85e1-f8c0cc15db64",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17c3afc7645439a099a371d15d3fe30d5fb97a45a65f02f6e0bbae22b403ace2"
+  },
+  "nodeGroups": [],
+  "id": "NFxOZ4vkAN0P9yO5",
+  "tags": []
+}

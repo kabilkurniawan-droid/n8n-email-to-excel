@@ -1,0 +1,165 @@
+{
+  "name": "Email to Data Table - Entri Data",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  const raw = (item.json.textPlain || item.json.text || '').replace(/\\r/g, '');\n  const data = { nama: '', alamat: '', pesanan: '', keterangan: '' };\n  let current = null;\n\n  for (const line of raw.split('\\n')) {\n    const m = line.match(/^\\s*(nama|alamat|pesanan|keterangan)\\s*[:=-]\\s*(.*)$/i);\n    if (m) {\n      current = m[1].toLowerCase();\n      data[current] = m[2].trim();\n    } else if (current && line.trim()) {\n      data[current] += ' ' + line.trim();\n    }\n  }\n\n  if (!data.nama) continue;   // skip emails that are not in the Nama/Alamat/... format\n\n  const titleCase = s => s.toLowerCase().split(/\\s+/).filter(Boolean)\n    .map(w => w[0].toUpperCase() + w.slice(1)).join(' ')\n    .replace(/\\bRt\\b/g, 'RT').replace(/\\bRw\\b/g, 'RW');\n  const sentence = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;\n  const tanggal = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Jakarta' });\n\n  results.push({ json: {\n    tanggal,\n    nama: titleCase(data.nama),\n    alamat: titleCase(data.alamat),\n    pesanan: sentence(data.pesanan),\n    keterangan: sentence(data.keterangan),\n  }});\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -48
+      ],
+      "id": "0006828a-7947-4f0d-8f18-be50d912a683",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "mailbox": "EntriData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.2,
+      "position": [
+        -160,
+        -48
+      ],
+      "id": "cfafce9f-bf04-45b4-9957-11cc7f4ab093",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "58RFc7TA3ez7CiDi",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "fTS7EO2UWIX4kpQP",
+          "mode": "list",
+          "cachedResultName": "entri_email",
+          "cachedResultUrl": "/projects/t6YyuNpEQTZAm0ov/datatables/fTS7EO2UWIX4kpQP"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tanggal": "={{ $json.tanggal }}",
+            "nama": "={{ $json.nama }}",
+            "alamat": "={{ $json.alamat }}",
+            "pesanan": "={{ $json.pesanan }}",
+            "keterangan": "={{ $json.keterangan }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "tanggal",
+              "displayName": "tanggal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "nama",
+              "displayName": "nama",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "alamat",
+              "displayName": "alamat",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "pesanan",
+              "displayName": "pesanan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "keterangan",
+              "displayName": "keterangan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        -48
+      ],
+      "id": "31f3a640-a624-4b7c-9e84-0d0608c7d0b4",
+      "name": "Insert row"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "NFxOZ4vkAN0P9yO5",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "5bcb471f-7419-48cb-88c9-138d42ac8a21",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17c3afc7645439a099a371d15d3fe30d5fb97a45a65f02f6e0bbae22b403ace2"
+  },
+  "nodeGroups": [],
+  "id": "WxH0nkv0MWJn8JI3",
+  "tags": []
+}

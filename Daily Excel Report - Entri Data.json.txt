@@ -1,0 +1,192 @@
+{
+  "name": "Daily Excel Report - Entri Data",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "fTS7EO2UWIX4kpQP",
+          "mode": "list",
+          "cachedResultName": "entri_email",
+          "cachedResultUrl": "/projects/t6YyuNpEQTZAm0ov/datatables/fTS7EO2UWIX4kpQP"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "tanggal",
+              "keyValue": "={{ $now.toFormat('yyyy-MM-dd') }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -272,
+        -16
+      ],
+      "id": "b0597c0a-e03d-4ebe-9ab1-9566546b2e75",
+      "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.2,
+      "position": [
+        176,
+        -16
+      ],
+      "id": "b1756f84-cc75-4df1-bed8-12b70e857f24",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/files/entri_{{ $now.toFormat('yyyy-MM-dd') }}.xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        -16
+      ],
+      "id": "8b07e735-6bcf-4710-b44d-d7e62e7dfeb2",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2d11c04f-502d-42a9-a25a-70dd994fa32f",
+              "name": "tanggal",
+              "value": "={{ $now.toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "6256f82c-f4d4-491e-8d02-433d4b99e39a",
+              "name": "nama",
+              "value": "={{ $json.nama }}",
+              "type": "string"
+            },
+            {
+              "id": "49b3b069-6ffb-4458-9dec-0b4c30ae3503",
+              "name": "alamat",
+              "value": "={{ $json.alamat }}",
+              "type": "string"
+            },
+            {
+              "id": "ff53358a-79ca-4e58-a232-f1fa8820ad6c",
+              "name": "pesanan",
+              "value": "={{ $json.pesanan }}",
+              "type": "string"
+            },
+            {
+              "id": "e1359971-2b23-48ef-9397-93ee21af4ff2",
+              "name": "keterangan",
+              "value": "={{ $json.keterangan }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -48,
+        -16
+      ],
+      "id": "a78624f6-866d-40a4-9140-ed2ca75d6a99",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 21
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -480,
+        -16
+      ],
+      "id": "84f3ae74-1501-44f0-916b-5e647f458ef4",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "NFxOZ4vkAN0P9yO5"
+  },
+  "versionId": "30314f1a-e449-4e89-bfba-b312ab0fdb1e",
+  "meta": {
+    "instanceId": "17c3afc7645439a099a371d15d3fe30d5fb97a45a65f02f6e0bbae22b403ace2"
+  },
+  "nodeGroups": [],
+  "id": "SBw7XrendbU40FMg",
+  "tags": []
+}
