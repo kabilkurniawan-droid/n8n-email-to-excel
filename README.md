@@ -103,4 +103,17 @@ Credentials are not included in this repository and must be created in your own 
 
 ## Screenshots
 
-_Add screenshots here: the three workflows, the data table, the Excel output, and the alert email._
+   ### Workflow A: Email to Data Table
+   ![Workflow A](Email to Data Table - Entri Data.json.png)
+
+   ### Workflow B: Daily Excel Report
+   ![Workflow B](Daily Excel Report - Entri Data.json.png)
+
+   ### Data table
+   ![Data table](the data table entri_email.png)
+
+   ### Excel output
+   ![Excel output](the Excel file.png)
+
+   ### Alert email
+   ![Alert email](the alert email.png)
