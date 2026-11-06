@@ -103,17 +103,20 @@ Credentials are not included in this repository and must be created in your own 
 
 ## Screenshots
 
-   ### Workflow A: Email to Data Table
-   ![Workflow A](screenshots/Email to Data Table - Entri Data.png)
+### Workflow A: Email to Data Table
+![Workflow A](screenshots/workflow-Email%20to%20Data%20Table.png)
 
-   ### Workflow B: Daily Excel Report
-   ![Workflow B](screenshots/workflow-b.png)
+### Workflow B: Daily Excel Report
+![Workflow B](screenshots/Daily%20Excel%20Report%20-%20Entri%20Data.png)
 
-   ### Data table
-   ![Data table](screenshots/the data table entri_email.png)
+### Workflow C: Error Alert
+![Workflow C](screenshots/Error%20Alert%20-%20Entri%20Data.png)
 
-   ### Excel output
-   ![Excel output](screenshots/the Excel file.png)
+### Data table
+![Data table](screenshots/the%20data%20table%20entri_email.png)
 
-   ### Alert email
-   ![Alert email](screenshots/the alert email.png)
+### Excel output
+![Excel output](screenshots/the%20Excel%20file.png)
+
+### Alert email
+![Alert email](screenshots/the%20alert%20email.png)
